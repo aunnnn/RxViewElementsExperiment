@@ -117,7 +117,7 @@ class ViewController: TableModelViewController {
         // Testing Component
         
         
-        let panel = ActivityPanelComponent(props: (self.like, self.likesCount))≥
+        let panel = ActivityPanelComponent(props: (self.like, self.likesCount))
         
         
         let test = (1...10).flatMap { (val) -> [Row] in
