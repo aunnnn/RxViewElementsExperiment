@@ -21,6 +21,9 @@ class ViewController: TableModelViewController {
     
     var btnRow: Row?
     
+    let like = Variable<Bool>(false)
+    let likesCount = Variable<Int>(1000)
+    
     override func setupTable() {
         
         let welcome = Row(ElementOfLabel(props: "Welcome!").styles { (lb) in
@@ -64,7 +67,7 @@ class ViewController: TableModelViewController {
         // ------
         // BUTTON
         // ------
-        let btn = Row(ElementOf<RxButton>.init(props: ("Login", { [unowned self] rx in
+        let btn = Row(ElementOf<RxButton>.init(props: (Observable<String?>.just("Login"), { [unowned self] rx in
             
             // Input Valid?
             let validInputs = Observable
@@ -110,19 +113,37 @@ class ViewController: TableModelViewController {
         }))
         btn.tag = "btn"
         
-        let rows = [
-                    spc44,
-                    welcome,
-                    spc44,
-                    tf1,
-                    tf2,
-                    spc44,
-                    btn,
-                    spc44,
-                    msg,
-                    tf1]
         
-        let table = Table(sections: [Section(rows: rows)])
+        // Testing Component
+        
+        
+        let panel = ActivityPanelComponent(props: (self.like, self.likesCount))≥
+        
+        
+        let test = (1...10).flatMap { (val) -> [Row] in
+            let panel = Row(ActivityPanelComponent(props: (Variable<Bool>(val % 2 == 0), Variable<Int>(val))))
+            return [
+                panel,
+                spc44,
+                spc44,
+            ]
+        }
+        
+        let rows = [
+            spc44,
+            welcome,
+            spc44,
+            tf1,
+            tf2,
+            spc44,
+            btn,
+            spc44,
+            msg,
+            tf1,
+            ] + test
+        
+        let section = Section(header: SectionHeader(panel), footer: nil, rows: rows)
+        let table = Table(sections: [section])
         table.centersContentIfPossible = true
         self.table = table
     }
